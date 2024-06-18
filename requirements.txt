@@ -1,0 +1,6 @@
+flask~=3.0.3
+mysql-connector-python~=8.4.0
+PyMySQL~=1.1.1
+waitress~=3.0.0
+Flask-Cors~=4.0.1
+Flask-MySQLdb~=2.0.0
