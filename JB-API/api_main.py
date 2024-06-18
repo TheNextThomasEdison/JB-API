@@ -19,8 +19,6 @@ def chat():
         return register(_msg_received)
     elif msg_subject == "login":
         return login(_msg_received)
-    else:
-        return "Invalid request"
 
 
 def register(msg_received):
