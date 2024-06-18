@@ -6,6 +6,7 @@ import pymysql.cursors
 from app import app
 from config import _mysql
 from flask import jsonify, flash, request
+from dotenv import load_dotenv, dotenv_values
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -32,8 +33,8 @@ def register(msg_received):
         _registration_date = msg_received['registration_date']
 
         if _fullname and _username and _email and _password and _confirmed_password and _registration_date:
-            conn = mysql.connector.connect(password=os.environ.get('MYSQL_PASSWORD'), database='chat_db',
-                                           user=os.environ.get('MYSQL_USERNAME'), host='localhost')
+            conn = mysql.connector.connect(password=os.getenv('MYSQL_PASSWORD'), database='chat_db',
+                                           user=os.getenv('MYSQL_USERNAME'), host='localhost')
             cursor = conn.cursor(dictionary=True)
 
             # Checking to see if the chosen username doesn't already exist
@@ -67,8 +68,8 @@ def register(msg_received):
 def login(msg_received):
     username = msg_received["username"]
     if username:
-        conn = mysql.connector.connect(password=os.environ.get('MYSQL_PASSWORD'), database='chat_db',
-                                       user=os.environ.get('MYSQL_USERNAME'), host='localhost')
+        conn = mysql.connector.connect(password=os.getenv('MYSQL_PASSWORD'), database='chat_db',
+                                       user=os.getenv('MYSQL_USERNAME'), host='localhost')
         cursor = conn.cursor(dictionary=True)
 
         select_query = "SELECT full_name FROM users where username = " + "'" + username + "'"
