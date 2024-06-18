@@ -60,7 +60,7 @@ def register(msg_received):
         else:
             return show_message()
     except Exception as e:
-        print(e)
+        return jsonify(str(e))
 
 
 def login(msg_received):
@@ -78,6 +78,8 @@ def login(msg_received):
             return jsonify("Login failed")
         else:
             return jsonify(f"Login was a success {username}")
+    else:
+        return jsonify("No valid username was recognized")
 
 
 @app.route('/users')
@@ -96,7 +98,7 @@ def users():
         cursor.close()
         return response
     except Exception as e:
-        print(e)
+        return jsonify(str(e))
 
 
 @app.route('/users/<int:user_id>')
@@ -113,7 +115,7 @@ def user_details(user_id):
         conn.commit()
         return response
     except Exception as e:
-        print(e)
+        return jsonify(str(e))
 
 
 @app.route('/delete/', methods=['DELETE'])
@@ -130,7 +132,7 @@ def delete_user(user_id):
         conn.close()
         return response
     except Exception as e:
-        print(e)
+        return jsonify(str(e))
 
 
 @app.errorhandler(404)
