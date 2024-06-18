@@ -148,4 +148,4 @@ def show_message(error=None):
 
 if __name__ == '__main__':
     from waitress import serve
-    serve(app, host='0.0.0.0', port=3306, debug=True)
+    serve(app, host='0.0.0.0', port=8080, debug=True)
