@@ -4,7 +4,7 @@ import flask
 import mysql.connector
 import pymysql.cursors
 from app import app
-from config import _mysql, db_name, db_user, db_password
+from config import _mysql
 from flask import jsonify, flash, request
 
 
@@ -18,6 +18,8 @@ def chat():
         return register(_msg_received)
     elif msg_subject == "login":
         return login(_msg_received)
+    else:
+        return jsonify('Invalid request')
 
 
 def register(msg_received):
@@ -30,9 +32,10 @@ def register(msg_received):
         _registration_date = msg_received['registration_date']
 
         if _fullname and _username and _email and _password and _confirmed_password and _registration_date:
-            conn = mysql.connector.connect(password=db_password, database=db_name,
-                                           user=db_user, host='localhost')
-            cursor = conn.cursor(dictionary=True)
+            # conn = mysql.connector.connect(password=db_password, database=db_name,
+            #                                user=db_user, host='localhost')
+            # cursor = conn.cursor(dictionary=True)
+            cursor = _mysql.connection.cursor()
 
             # Checking to see if the chosen username doesn't already exist
             select_query = "SELECT * FROM users where username = " + "'" + _username + "'"
@@ -47,10 +50,12 @@ def register(msg_received):
             insert_data = (_fullname, _username, _email, _password, _confirmed_password, _registration_date)
             try:
                 cursor.execute(insert_query, insert_data)
-                conn.commit()
+                # conn.commit()
+                _mysql.connection.commit()
                 response = jsonify("User added successfully to J.B's community")
                 response.status_code = 200
-                conn.commit()
+                # conn.commit()
+                _mysql.connection.commit()
                 cursor.close()
                 return response
             except Exception as e:
@@ -65,9 +70,10 @@ def register(msg_received):
 def login(msg_received):
     username = msg_received["username"]
     if username:
-        conn = mysql.connector.connect(password=os.getenv('MYSQL_PASSWORD'), database='chat_db',
-                                       user=os.getenv('MYSQL_USERNAME'), host='localhost')
-        cursor = conn.cursor(dictionary=True)
+        # conn = mysql.connector.connect(password=os.getenv('MYSQL_PASSWORD'), database='chat_db',
+        #                                user=os.getenv('MYSQL_USERNAME'), host='localhost')
+        # cursor = conn.cursor(dictionary=True)
+        cursor = _mysql.connection.cursor()
 
         select_query = "SELECT full_name FROM users where username = " + "'" + username + "'"
         cursor.execute(select_query)
