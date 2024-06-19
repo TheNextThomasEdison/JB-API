@@ -2,9 +2,9 @@ import os
 
 from app import app
 from flask_mysqldb import MySQL
-# from dotenv import load_dotenv, dotenv_values
-#
-# load_dotenv()
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv()
 
 # MySQL database connection credentials
 db_user = os.environ["DB_PASSWORD"]
