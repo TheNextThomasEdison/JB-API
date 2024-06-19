@@ -4,9 +4,8 @@ import flask
 import mysql.connector
 import pymysql.cursors
 from app import app
-from config import _mysql
+from config import _mysql, db_name, db_user, db_password
 from flask import jsonify, flash, request
-from dotenv import load_dotenv, dotenv_values
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,8 +30,8 @@ def register(msg_received):
         _registration_date = msg_received['registration_date']
 
         if _fullname and _username and _email and _password and _confirmed_password and _registration_date:
-            conn = mysql.connector.connect(password=os.getenv('MYSQL_PASSWORD'), database='chat_db',
-                                           user=os.getenv('MYSQL_USERNAME'), host='localhost')
+            conn = mysql.connector.connect(password=db_password, database=db_name,
+                                           user=db_user, host='localhost')
             cursor = conn.cursor(dictionary=True)
 
             # Checking to see if the chosen username doesn't already exist
