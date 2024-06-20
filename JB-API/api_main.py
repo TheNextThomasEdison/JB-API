@@ -59,12 +59,12 @@ def register(msg_received):
                 cursor.close()
                 return response
             except Exception as e:
-                response = jsonify(str(e))
+                response = jsonify(f"Registration failed because: {str(e)}")
                 return response
         else:
             return show_message()
     except Exception as e:
-        return jsonify(str(e))
+        return jsonify(f"The process wasn't able to complete because of {str(e)}")
 
 
 def login(msg_received):
