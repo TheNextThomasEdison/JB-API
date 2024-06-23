@@ -19,7 +19,7 @@ db_host = os.environ["DB_HOST"]
 # Create a MySQL connection
 app.config['MYSQL_USER'] = db_user
 app.config['MYSQL_PASSWORD'] = db_password
-app.config['MYSQL_HOST'] = IP_ADDRESS
+app.config['MYSQL_HOST'] = db_host
 app.config['MYSQL_DB'] = db_name
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 _mysql = MySQL(app)
